@@ -38,8 +38,9 @@
 </head>
 <body class="bg-white text-gray-900 relative z-10" onmousemove="updateMousePosition(event)"><script>
   function updateMousePosition(e) {
-    document.body.style.setProperty('--x', ${e.clientX}px);
-    document.body.style.setProperty('--y', ${e.clientY}px);
+    document.body.style.setProperty('--x', `${e.clientX}px`);
+document.body.style.setProperty('--y', `${e.clientY}px`);
+
   }
 
   function toggleFAQ(button) {
