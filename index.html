@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SeogramAI</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -9,11 +10,11 @@
       theme: {
         extend: {
           colors: {
-            tiffany: '#40E0D0'
-          }
-        }
-      }
-    }
+            tiffany: "#40E0D0",
+          },
+        },
+      },
+    };
   </script>
   <style>
     .faq-answer {
@@ -23,199 +24,143 @@
       display: block;
     }
     body::before {
-      content: '';
+      content: "";
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(64, 224, 208, 0.2), transparent 40%);
+      background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(64, 224, 208, 0.2),
+        transparent 40%
+      );
       pointer-events: none;
       z-index: 0;
       transition: background-position 0.1s;
     }
   </style>
 </head>
-<body class="bg-white text-gray-900 relative z-10" onmousemove="updateMousePosition(event)"><script>
-  function updateMousePosition(e) {
-    document.body.style.setProperty('--x', `${e.clientX}px`);
-document.body.style.setProperty('--y', `${e.clientY}px`);
+<body
+  class="bg-white text-gray-900 relative z-10"
+  onmousemove="updateMousePosition(event)"
+>
+  <script>
+    function updateMousePosition(e) {
+      document.body.style.setProperty("--x", `${e.clientX}px`);
+      document.body.style.setProperty("--y", `${e.clientY}px`);
+    }
+    function toggleFAQ(button) {
+      const faqItem = button.parentElement;
+      faqItem.classList.toggle("faq-open");
+      const icon = button.querySelector(".faq-icon");
+      icon.textContent = faqItem.classList.contains("faq-open") ? "–" : "+";
+    }
+  </script>
+  <!-- NAVBAR -->
+  <!-- (todo tu navbar igual) -->
+  <!-- HERO -->
+  <section
+    class="min-h-screen flex flex-col justify-center items-center px-6 text-center relative z-10"
+  >
+    <h1
+      class="text-4xl md:text-6xl font-bold mb-6 leading-tight max-w-3xl"
+    >
+      Optimiza tu página web con <span class="text-tiffany">IA</span> en
+      cuestión de segundos.
+    </h1>
+    <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
+      Analizamos tu sitio. Te damos el HTML optimizado. Sin tocar tu web real.
+    </p>
+    <a
+      href="#comenzar"
+      class="bg-tiffany hover:bg-teal-400 text-white px-6 py-3 rounded-xl text-lg font-medium transition-all"
+      >Probar gratis</a
+    >
+    <div class="mt-12 w-full max-w-4xl">
+      <div
+        class="border-2 border-dashed border-gray-300 rounded-xl h-[300px] flex items-center justify-center text-gray-400 text-lg"
+        id="visualizer"
+      >
+        Aquí irá el visualizador del resultado 🧠
+      </div>
+    </div>
+  </section>
+  <!-- (otras secciones sin cambios) -->
 
-  }
+  <!-- PROBAR GRATIS -->
+  <section id="comenzar" class="py-24 bg-white px-6 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Prueba SeogramAI gratis</h2>
+      <p class="text-gray-600 mb-8">
+        Introduce la URL de tu página web y visualiza cómo podemos mejorarla con
+        IA.
+      </p>
+      <form
+        id="urlForm"
+        class="flex flex-col md:flex-row gap-4 justify-center"
+      >
+        <input
+          type="url"
+          id="urlInput"
+          required
+          placeholder="https://tusitio.com"
+          class="w-full md:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tiffany"
+        />
+        <button
+          type="submit"
+          class="bg-tiffany hover:bg-teal-400 text-white px-6 py-3 rounded-lg font-medium transition"
+        >
+          Analizar
+        </button>
+      </form>
+      <p class="text-sm text-gray-400 mt-4">
+        * No realizamos ningún cambio en tu sitio web real.
+      </p>
+    </div>
+  </section>
 
-  function toggleFAQ(button) {
-    const faqItem = button.parentElement;
-    faqItem.classList.toggle('faq-open');
-    const icon = button.querySelector('.faq-icon');
-    icon.textContent = faqItem.classList.contains('faq-open') ? '–' : '+';
-  }
-</script><!-- NAVBAR --><header class="w-full px-6 py-4 bg-[#f0f9ff] border-b border-gray-100 shadow-sm sticky top-0 z-40">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="text-2xl font-bold text-tiffany hover:opacity-80 transition">
-      Seogram<span class="text-gray-800">AI</span>
-    </a>
-    <nav class="space-x-6 hidden md:block">
-      <a href="#como-funciona" class="text-gray-700 hover:text-tiffany transition">Cómo funciona</a>
-      <a href="#beneficios" class="text-gray-700 hover:text-tiffany transition">Beneficios</a>
-      <a href="#faq" class="text-gray-700 hover:text-tiffany transition">FAQ</a>
-      <a href="#comenzar" class="bg-tiffany hover:bg-teal-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Probar gratis</a>
-    </nav>
-  </div>
-</header><!-- HERO --><section class="min-h-screen flex flex-col justify-center items-center px-6 text-center relative z-10">
-  <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight max-w-3xl">
-    Optimiza tu página web con <span class="text-tiffany">IA</span> en cuestión de segundos.
-  </h1>
-  <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
-    Analizamos tu sitio. Te damos el HTML optimizado. Sin tocar tu web real.
-  </p>
-  <a href="#comenzar" class="bg-tiffany hover:bg-teal-400 text-white px-6 py-3 rounded-xl text-lg font-medium transition-all">
-    Probar gratis
-  </a>
-  <div class="mt-12 w-full max-w-4xl">
-    <div class="border-2 border-dashed border-gray-300 rounded-xl h-[300px] flex items-center justify-center text-gray-400 text-lg">
-      Aquí irá el visualizador del resultado 🧠
-    </div>
-  </div>
-</section><!-- CÓMO FUNCIONA --><section id="como-funciona" class="py-24 px-6 bg-gray-50 text-center">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">¿Cómo funciona?</h2>
-    <div class="grid md:grid-cols-3 gap-8 text-left">
-      <div class="bg-white rounded-xl p-6 border">
-        <h3 class="text-xl font-semibold mb-2 text-tiffany">1. Introduce tu URL</h3>
-        <p class="text-gray-600">Solo necesitamos la dirección pública de tu sitio web. Sin accesos ni contraseñas.</p>
-      </div>
-      <div class="bg-white rounded-xl p-6 border">
-        <h3 class="text-xl font-semibold mb-2 text-tiffany">2. La IA lo analiza y mejora</h3>
-        <p class="text-gray-600">Nuestro sistema lee el contenido de tu web y genera una nueva versión optimizada para SEO.</p>
-      </div>
-      <div class="bg-white rounded-xl p-6 border">
-        <h3 class="text-xl font-semibold mb-2 text-tiffany">3. Visualiza y descarga</h3>
-        <p class="text-gray-600">Mira el resultado en nuestro visualizador y descárgalo si te convence. Sin tocar tu web real.</p>
-      </div>
-    </div>
-  </div>
-</section><!-- BENEFICIOS --><section id="beneficios" class="py-24 px-6 bg-white text-center">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">¿Por qué usar SeogramAI?</h2>
-    <div class="grid md:grid-cols-2 gap-8 text-left">
-      <div class="bg-tiffany text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Optimización instantánea</h3>
-        <p>Olvídate de auditar manualmente tu web. Nuestra IA lo hace por ti en segundos.</p>
-      </div>
-      <div class="bg-teal-300 text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Fácil de usar</h3>
-        <p>No necesitas conocimientos técnicos. Solo introduce tu URL y listo.</p>
-      </div>
-      <div class="bg-tiffany text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Sin riesgos</h3>
-        <p>Tu sitio web original permanece intacto. Puedes revisar todo antes de aplicar cambios.</p>
-      </div>
-      <div class="bg-teal-300 text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Resultados visibles</h3>
-        <p>Mejoramos lo que realmente importa: meta descripciones, encabezados, títulos y más.</p>
-      </div>
-    </div>
-  </div>
-</section><!-- OPINIONES USUARIOS --><section class="bg-gray-50 py-24 px-6 text-center">
-  <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">Lo que opinan nuestros usuarios</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white p-6 rounded-xl shadow text-left">
-        <p class="text-gray-600 italic">“Pensaba que tenía mi web bien, pero SeogramAI me abrió los ojos. Fácil y eficaz.”</p>
-        <p class="mt-4 font-semibold text-tiffany">Ana G. - Diseñadora</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow text-left">
-        <p class="text-gray-600 italic">“Mejoras claras en posicionamiento con apenas esfuerzo. ¡Muy recomendado!”</p>
-        <p class="mt-4 font-semibold text-tiffany">Carlos M. - Emprendedor</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow text-left">
-        <p class="text-gray-600 italic">“En minutos tuve mi web optimizada. Y sin tocar nada. Increíble.”</p>
-        <p class="mt-4 font-semibold text-tiffany">Lucía R. - Blogger</p>
-      </div>
-    </div>
-  </div>
-</section><!-- CIFRAS --><section class="py-24 px-6 bg-white text-center">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">Nuestros resultados</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      <div>
-        <p class="text-4xl font-bold text-tiffany">+150</p>
-        <p class="text-gray-600">webs mejoradas</p>
-      </div>
-      <div>
-        <p class="text-4xl font-bold text-tiffany">98%</p>
-        <p class="text-gray-600">usuarios satisfechos</p>
-      </div>
-      <div>
-        <p class="text-4xl font-bold text-tiffany">+20k</p>
-        <p class="text-gray-600">líneas HTML generadas</p>
-      </div>
-      <div>
-        <p class="text-4xl font-bold text-tiffany">24h</p>
-        <p class="text-gray-600">respuesta media</p>
-      </div>
-    </div>
-  </div>
-</section><!-- PROBAR GRATIS --><section id="comenzar" class="py-24 bg-white px-6 text-center">
-  <div class="max-w-2xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6">Prueba SeogramAI gratis</h2>
-    <p class="text-gray-600 mb-8">Introduce la URL de tu página web y visualiza cómo podemos mejorarla con IA.</p>
-    <form class="flex flex-col md:flex-row gap-4 justify-center">
-      <input type="url" required placeholder="https://tusitio.com" class="w-full md:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tiffany">
-      <button type="submit" class="bg-tiffany hover:bg-teal-400 text-white px-6 py-3 rounded-lg font-medium transition">Analizar</button>
-    </form>
-    <p class="text-sm text-gray-400 mt-4">* No realizamos ningún cambio en tu sitio web real.</p>
-  </div>
-</section><!-- PREGUNTAS FRECUENTES --><section id="faq" class="bg-gray-50 py-24 px-6">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Preguntas frecuentes</h2>
-    <div class="space-y-4">
-      <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
-        <button class="w-full text-left px-6 py-4 bg-white hover:bg-gray-100 font-medium text-lg flex justify-between items-center" onclick="toggleFAQ(this)">
-          ¿Necesito dar acceso a mi web para usar SeogramAI?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer px-6 py-4 text-gray-600 bg-white">
-          No, solo necesitas introducir la URL pública. Analizamos sin necesidad de acceder a tu servidor ni backend.
-        </div>
-      </div>
-      <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
-        <button class="w-full text-left px-6 py-4 bg-white hover:bg-gray-100 font-medium text-lg flex justify-between items-center" onclick="toggleFAQ(this)">
-          ¿Se realizan cambios reales en mi web?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer px-6 py-4 text-gray-600 bg-white">
-          No. Nuestro sistema genera una versión optimizada que puedes revisar y descargar, sin tocar tu web original.
-        </div>
-      </div>
-      <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
-        <button class="w-full text-left px-6 py-4 bg-white hover:bg-gray-100 font-medium text-lg flex justify-between items-center" onclick="toggleFAQ(this)">
-          ¿Qué tipo de mejoras realiza la IA?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer px-6 py-4 text-gray-600 bg-white">
-          La IA mejora títulos, meta descripciones, estructura de encabezados y otros elementos clave del SEO on-page.
-        </div>
-      </div>
-      <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
-        <button class="w-full text-left px-6 py-4 bg-white hover:bg-gray-100 font-medium text-lg flex justify-between items-center" onclick="toggleFAQ(this)">
-          ¿Cuánto cuesta usar SeogramAI?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer px-6 py-4 text-gray-600 bg-white">
-          Puedes probar el servicio gratis. Más adelante ofreceremos planes premium con características avanzadas.
-        </div>
-      </div>
-    </div>
-  </div>
-</section><!-- FOOTER --><footer class="bg-gray-100 py-6 text-center text-sm text-gray-500">
-  <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center px-6">
-    <p>© 2025 SeogramAI</p>
-    <div class="space-x-4">
-      <a href="#" class="hover:text-gray-700">Términos</a>
-      <a href="#" class="hover:text-gray-700">Privacidad</a>
-      <a href="#" class="hover:text-gray-700">Instagram</a>
-    </div>
-  </div>
-</footer></body>
+  <!-- Añade este script justo antes de </body> -->
+  <script>
+    const form = document.getElementById("urlForm");
+    const input = document.getElementById("urlInput");
+    const visualizer = document.getElementById("visualizer");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const url = input.value.trim();
+      if (!url) {
+        alert("Introduce una URL válida");
+        return;
+      }
+
+      visualizer.textContent = "Analizando...";
+
+      try {
+        const response = await fetch(
+          "https://backend-xpf4.onrender.com/optimize",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ url }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.error) {
+          visualizer.textContent = `Error: ${data.error}`;
+        } else {
+          visualizer.innerHTML = data.optimized_html;
+        }
+      } catch (error) {
+        visualizer.textContent = "Error en la conexión al backend";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
 </html>
