@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SeogramAI</title>
+  <title>SeogramAI | Optimización SEO Profesional</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.stripe.com/v3/"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -12,18 +13,24 @@
           colors: {
             tiffany: "#40E0D0",
             teal: "#1F766E",
+            dark: "#1A202C",
+          },
+          animation: {
+            fadeIn: 'fadeIn 1s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
           },
         },
       },
     };
   </script>
   <style>
-    .faq-answer {
-      display: none;
-    }
-    .faq-open .faq-answer {
-      display: block;
-    }
+    .faq-answer { display: none; }
+    .faq-open .faq-answer { display: block; }
     body::before {
       content: '';
       position: fixed;
@@ -36,6 +43,7 @@
       z-index: -1;
       transition: background-position 0.1s;
     }
+    .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
   </style>
 </head>
 <body class="bg-white text-gray-900 relative z-10" onmousemove="updateMousePosition(event)">
@@ -52,57 +60,67 @@
     const icon = button.querySelector('.faq-icon');
     icon.textContent = faqItem.classList.contains('faq-open') ? '–' : '+';
   }
+
+  const stripe = Stripe('pk_test_TU_CLAVE_PUBLICA_STRIPE');
+  async function initiatePayment() {
+    try {
+      const response = await fetch('https://backend-xpf4.onrender.com/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: 'premium' }),
+      });
+      const { sessionId } = await response.json();
+      await stripe.redirectToCheckout({ sessionId });
+    } catch (error) {
+      alert('Error al iniciar el pago. Intenta nuevamente.');
+    }
+  }
 </script>
 
 <!-- NAVBAR -->
-<header class="w-full px-6 py-4 bg-[#f0f9ff] border-b border-gray-100 shadow-sm sticky top-0 z-40">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
+<header class="w-full px-6 py-4 bg-dark text-white shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
     <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="text-2xl font-bold text-tiffany hover:opacity-80 transition">
-      Seogram<span class="text-gray-800">AI</span>
+      Seogram<span class="text-white">AI</span>
     </a>
-    <nav class="space-x-6 hidden md:block">
-      <a href="#como-funciona" class="text-gray-700 hover:text-tiffany transition">Cómo funciona</a>
-      <a href="#beneficios" class="text-gray-700 hover:text-tiffany transition">Beneficios</a>
-      <a href="#faq" class="text-gray-700 hover:text-tiffany transition">FAQ</a>
-      <a href="#comenzar" class="bg-tiffany hover:bg-teal text-white px-4 py-2 rounded-lg text-sm font-medium transition">Probar gratis</a>
+    <nav class="space-x-6 hidden md:flex items-center">
+      <a href="#como-funciona" class="text-gray-300 hover:text-tiffany transition">Cómo funciona</a>
+      <a href="#beneficios" class="text-gray-300 hover:text-tiffany transition">Beneficios</a>
+      <a href="#faq" class="text-gray-300 hover:text-tiffany transition">FAQ</a>
+      <button onclick="initiatePayment()" class="bg-tiffany hover:bg-teal text-dark px-6 py-2 rounded-lg font-medium transition">Suscribirse</button>
     </nav>
   </div>
 </header>
 
 <!-- HERO -->
-<section class="min-h-screen flex flex-col justify-center items-center px-6 text-center relative z-10">
-  <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight max-w-3xl">
-    Optimiza tu página web con <span class="text-tiffany">IA</span> en segundos
+<section class="min-h-screen flex flex-col justify-center items-center px-6 text-center relative z-10 bg-gradient-to-b from-dark to-gray-900 text-white">
+  <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight max-w-3xl animate-fadeIn">
+    Potencia tu <span class="text-tiffany">SEO</span> con Inteligencia Artificial
   </h1>
-  <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
-    Analizamos tu sitio. Generamos un informe profesional y código HTML optimizado.
+  <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-xl animate-fadeIn">
+    Transforma tu sitio web con optimizaciones avanzadas y sube en los rankings de búsqueda.
   </p>
-  <a href="#comenzar" class="bg-tiffany hover:bg-teal text-white px-6 py-3 rounded-xl text-lg font-medium transition-all">
-    Probar gratis
-  </a>
-  <div class="mt-12 w-full max-w-4xl">
-    <div class="border-2 border-dashed border-gray-300 rounded-xl h-[300px] flex items-center justify-center text-gray-400 text-lg">
-      Visualiza tu sitio optimizado aquí 🧠
-    </div>
-  </div>
+  <button onclick="document.getElementById('comenzar').scrollIntoView({ behavior: 'smooth' });" class="bg-tiffany hover:bg-teal text-dark px-8 py-4 rounded-xl text-lg font-bold transition-all animate-fadeIn">
+    Optimiza tu Web Ahora
+  </button>
 </section>
 
 <!-- CÓMO FUNCIONA -->
 <section id="como-funciona" class="py-24 px-6 bg-gray-50 text-center">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">¿Cómo funciona?</h2>
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-dark animate-fadeIn">¿Cómo Transformamos tu Web?</h2>
     <div class="grid md:grid-cols-3 gap-8 text-left">
-      <div class="bg-white rounded-xl p-6 border">
-        <h3 class="text-xl font-semibold mb-2 text-tiffany">1. Introduce tu URL</h3>
-        <p class="text-gray-600">Solo necesitamos la dirección pública de tu sitio web. Sin accesos.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-2 text-tiffany">1. Análisis Profundo</h3>
+        <p class="text-gray-600">Introduce tu URL y nuestra IA analiza cada detalle de tu sitio en segundos.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 border">
-        <h3 class="text-xl font-semibold mb-2 text-tiffany">2. La IA lo analiza</h3>
-        <p class="text-gray-600">Nuestra IA examina tu web y genera mejoras SEO en segundos.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-2 text-tiffany">2. Optimización Avanzada</h3>
+        <p class="text-gray-600">Mejoramos títulos, metaetiquetas, encabezados e imágenes para maximizar tu SEO.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 border">
-        <h3 class="text-xl font-semibold mb-2 text-tiffany">3. Revisa y descarga</h3>
-        <p class="text-gray-600">Obtén un informe detallado y descarga el HTML optimizado.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-2 text-tiffany">3. Descarga y Aplica</h3>
+        <p class="text-gray-600">Obtén un informe profesional y HTML optimizado listo para tu sitio.</p>
       </div>
     </div>
   </div>
@@ -110,81 +128,91 @@
 
 <!-- BENEFICIOS -->
 <section id="beneficios" class="py-24 px-6 bg-white text-center">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">¿Por qué usar SeogramAI?</h2>
-    <div class="grid md:grid-cols-2 gap-8 text-left">
-      <div class="bg-tiffany text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Optimización instantánea</h3>
-        <p>Mejoras SEO automáticas en segundos, sin esfuerzo manual.</p>
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-dark animate-fadeIn">¿Por qué Elegir SeogramAI?</h2>
+    <div class="grid md:grid-cols-3 gap-8 text-left">
+      <div class="bg-tiffany text-white rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-2">Resultados Inmediatos</h3>
+        <p>Optimizaciones SEO que impulsan tu ranking en motores de búsqueda al instante.</p>
       </div>
-      <div class="bg-teal text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Fácil de usar</h3>
-        <p>Solo introduce tu URL, sin necesidad de conocimientos técnicos.</p>
+      <div class="bg-teal text-white rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-2">Interfaz Intuitiva</h3>
+        <p>Sin complicaciones: introduce tu URL y obtén resultados profesionales.</p>
       </div>
-      <div class="bg-tiffany text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Sin riesgos</h3>
-        <p>Tu sitio original permanece intacto. Revisa antes de aplicar.</p>
-      </div>
-      <div class="bg-teal text-white rounded-xl p-6">
-        <h3 class="text-xl font-semibold mb-2">Informe profesional</h3>
-        <p>Recibe un reporte claro de las mejoras SEO aplicadas.</p>
+      <div class="bg-tiffany text-white rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-2">Soporte Premium</h3>
+        <p>Nuestro equipo te guía para implementar las mejoras con éxito.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- OPINIONES USUARIOS -->
+<!-- TESTIMONIOS -->
 <section class="bg-gray-50 py-24 px-6 text-center">
-  <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">Lo que opinan nuestros usuarios</h2>
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-dark animate-fadeIn">Lo que Dicen Nuestros Clientes</h2>
     <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white p-6 rounded-xl shadow text-left">
-        <p class="text-gray-600 italic">“SeogramAI transformó mi sitio en minutos. ¡El informe es súper claro!”</p>
-        <p class="mt-4 font-semibold text-tiffany">Ana G. - Diseñadora</p>
+      <div class="bg-white p-8 rounded-xl shadow-lg text-left animate-fadeIn">
+        <p class="text-gray-600 italic">“SeogramAI llevó mi web a la primera página de Google en semanas.”</p>
+        <p class="mt-4 font-semibold text-tiffany">Ana G. - Diseñadora Web</p>
       </div>
-      <div class="bg-white p-6 rounded-xl shadow text-left">
-        <p class="text-gray-600 italic">“Fácil, rápido y con resultados visibles. ¡Increíble herramienta!”</p>
+      <div class="bg-white p-8 rounded-xl shadow-lg text-left animate-fadeIn">
+        <p class="text-gray-600 italic">“El informe SEO es claro y el HTML optimizado fue fácil de implementar.”</p>
         <p class="mt-4 font-semibold text-tiffany">Carlos M. - Emprendedor</p>
       </div>
-      <div class="bg-white p-6 rounded-xl shadow text-left">
-        <p class="text-gray-600 italic">“El informe SEO me ayudó a entender qué mejorar. ¡Gran trabajo!”</p>
+      <div class="bg-white p-8 rounded-xl shadow-lg text-left animate-fadeIn">
+        <p class="text-gray-600 italic">“Un servicio imprescindible para cualquier negocio online.”</p>
         <p class="mt-4 font-semibold text-tiffany">Lucía R. - Blogger</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CIFRAS -->
-<section class="py-24 px-6 bg-white text-center">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12">Nuestros resultados</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      <div>
-        <p class="text-4xl font-bold text-tiffany">+150</p>
-        <p class="text-gray-600">webs mejoradas</p>
+<!-- PRECIOS -->
+<section id="precios" class="py-24 px-6 bg-dark text-white text-center">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 animate-fadeIn">Planes para Tu Éxito</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white text-dark rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-2xl font-bold mb-4">Básico</h3>
+        <p class="text-4xl font-bold mb-4">$29/mes</p>
+        <ul class="text-left mb-6 space-y-2">
+          <li>✔ Análisis de 1 sitio web</li>
+          <li>✔ Informe SEO detallado</li>
+          <li>✔ HTML optimizado</li>
+        </ul>
+        <button onclick="initiatePayment()" class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
       </div>
-      <div>
-        <p class="text-4xl font-bold text-tiffany">98%</p>
-        <p class="text-gray-600">usuarios satisfechos</p>
+      <div class="bg-tiffany text-dark rounded-xl p-8 shadow-lg animate-fadeIn border-4 border-teal">
+        <h3 class="text-2xl font-bold mb-4">Pro</h3>
+        <p class="text-4xl font-bold mb-4">$79/mes</p>
+        <ul class="text-left mb-6 space-y-2">
+          <li>✔ Análisis de 5 sitios web</li>
+          <li>✔ Informe SEO avanzado</li>
+          <li>✔ HTML optimizado + Soporte prioritario</li>
+        </ul>
+        <button onclick="initiatePayment()" class="bg-dark hover:bg-teal text-white px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
       </div>
-      <div>
-        <p class="text-4xl font-bold text-tiffany">+20k</p>
-        <p class="text-gray-600">líneas HTML generadas</p>
-      </div>
-      <div>
-        <p class="text-4xl font-bold text-tiffany">24h</p>
-        <p class="text-gray-600">respuesta media</p>
+      <div class="bg-white text-dark rounded-xl p-8 shadow-lg animate-fadeIn">
+        <h3 class="text-2xl font-bold mb-4">Empresarial</h3>
+        <p class="text-4xl font-bold mb-4">$199/mes</p>
+        <ul class="text-left mb-6 space-y-2">
+          <li>✔ Análisis ilimitados</li>
+          <li>✔ Informe SEO completo</li>
+          <li>✔ Consultoría personalizada</li>
+        </ul>
+        <button onclick="initiatePayment()" class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROBAR GRATIS -->
-<section id="comenzar" class="py-24 bg-white px-6 text-center">
-  <div class="max-w-2xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6">Prueba SeogramAI gratis</h2>
-    <p class="text-gray-600 mb-8">Introduce la URL de tu página web y obtén un informe SEO profesional.</p>
-    <form id="urlForm" class="flex flex-col md:flex-row gap-4 justify-center">
+<!-- OPTIMIZAR -->
+<section id="comenzar" class="py-24 px-6 bg-white text-center">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-dark animate-fadeIn">Optimiza tu Web con SeogramAI</h2>
+    <p class="text-gray-600 mb-8 animate-fadeIn">Introduce tu URL y descubre cómo mejorar tu SEO con un informe profesional.</p>
+    <form id="urlForm" class="flex flex-col md:flex-row gap-4 justify-center animate-fadeIn">
       <input
         type="url"
         id="urlInput"
@@ -194,10 +222,10 @@
       />
       <button
         type="submit"
-        class="bg-tiffany hover:bg-teal text-white px-6 py-3 rounded-lg font-medium transition"
+        class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition"
         id="submitBtn"
       >
-        Analizar
+        Analizar Ahora
       </button>
     </form>
     <p id="errorMessage" class="text-red-600 mt-2 hidden"></p>
@@ -206,38 +234,50 @@
       <p class="text-gray-600">Analizando tu página...</p>
     </div>
 
-    <div id="resultContainer" class="mt-8 hidden">
-      <h3 class="text-2xl font-bold mb-4">Informe de Optimización SEO</h3>
-      <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 text-left">
-        <h4 class="text-lg font-semibold text-tiffany mb-2">Resumen de Mejoras</h4>
+    <div id="resultContainer" class="mt-12 hidden animate-fadeIn">
+      <h3 class="text-2xl font-bold mb-6 text-dark">Informe de Optimización SEO</h3>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-8 text-left shadow-lg">
+        <h4 class="text-lg font-semibold text-tiffany mb-4">Resumen de Mejoras</h4>
         <ul id="improvementsList" class="list-disc list-inside text-gray-700 mb-6"></ul>
         
-        <h4 class="text-lg font-semibold text-tiffany mb-2">Título Optimizado</h4>
+        <h4 class="text-lg font-semibold text-tiffany mb-4">Título Optimizado</h4>
         <p id="optimizedTitle" class="text-gray-700 mb-4"></p>
         
-        <h4 class="text-lg font-semibold text-tiffany mb-2">Meta Descripción</h4>
+        <h4 class="text-lg font-semibold text-tiffany mb-4">Meta Descripción</h4>
         <p id="optimizedMeta" class="text-gray-700 mb-4"></p>
         
-        <h4 class="text-lg font-semibold text-tiffany mb-2">Encabezados</h4>
+        <h4 class="text-lg font-semibold text-tiffany mb-4">Palabras Clave</h4>
+        <p id="optimizedKeywords" class="text-gray-700 mb-4"></p>
+        
+        <h4 class="text-lg font-semibold text-tiffany mb-4">URL Canónica</h4>
+        <p id="optimizedCanonical" class="text-gray-700 mb-4"></p>
+        
+        <h4 class="text-lg font-semibold text-tiffany mb-4">Encabezados</h4>
         <ul id="optimizedHeadings" class="list-disc list-inside text-gray-700 mb-4"></ul>
         
-        <h4 class="text-lg font-semibold text-tiffany mb-2">Imágenes (Alt Text)</h4>
+        <h4 class="text-lg font-semibold text-tiffany mb-4">Imágenes (Alt Text)</h4>
         <ul id="optimizedImages" class="list-disc list-inside text-gray-700 mb-6"></ul>
       </div>
 
-      <h3 class="text-2xl font-bold mt-8 mb-4">Código HTML Optimizado</h3>
+      <h3 class="text-2xl font-bold mt-8 mb-4 text-dark">Código HTML Optimizado</h3>
       <textarea
         id="resultTextarea"
-        rows="10"
+        rows="12"
         readonly
-        class="w-full border border-gray-300 rounded-lg p-4 font-mono text-sm"
+        class="w-full border border-gray-300 rounded-lg p-4 font-mono text-sm bg-gray-100"
       ></textarea>
 
       <button
         id="downloadBtn"
-        class="mt-6 bg-tiffany hover:bg-teal text-white px-6 py-3 rounded-lg font-medium transition"
+        class="mt-6 bg-tiffany hover:bg-teal text-dark px-8 py-3 rounded-lg font-medium transition"
       >
         Descargar HTML Optimizado
+      </button>
+      <button
+        onclick="initiatePayment()"
+        class="mt-4 bg-dark hover:bg-teal text-white px-8 py-3 rounded-lg font-medium transition"
+      >
+        Suscribirse para Más Optimizaciones
       </button>
     </div>
   </div>
@@ -245,22 +285,22 @@
 
 <!-- FAQ -->
 <section id="faq" class="bg-gray-50 py-24 px-6 max-w-4xl mx-auto">
-  <h2 class="text-3xl font-bold mb-12 text-center">Preguntas frecuentes</h2>
+  <h2 class="text-3xl font-bold mb-12 text-center text-dark animate-fadeIn">Preguntas Frecuentes</h2>
   <div class="space-y-6">
-    <div class="faq-item border border-gray-300 rounded-lg p-4">
+    <div class="faq-item border border-gray-300 rounded-lg p-6 bg-white shadow animate-fadeIn">
       <button
         class="w-full flex justify-between items-center text-lg font-semibold text-tiffany focus:outline-none"
         onclick="toggleFAQ(this)"
         aria-expanded="false"
       >
-        ¿SeogramAI afecta mi sitio web real?
+        ¿Modifica SeogramAI mi sitio web real?
         <span class="faq-icon text-2xl font-bold">+</span>
       </button>
       <p class="faq-answer mt-2 text-gray-700">
-        No, generamos una versión optimizada que puedes revisar y descargar sin modificar tu sitio.
+        No, generamos un HTML optimizado que puedes descargar y aplicar manualmente.
       </p>
     </div>
-    <div class="faq-item border border-gray-300 rounded-lg p-4">
+    <div class="faq-item border border-gray-300 rounded-lg p-6 bg-white shadow animate-fadeIn">
       <button
         class="w-full flex justify-between items-center text-lg font-semibold text-tiffany focus:outline-none"
         onclick="toggleFAQ(this)"
@@ -270,10 +310,10 @@
         <span class="faq-icon text-2xl font-bold">+</span>
       </button>
       <p class="faq-answer mt-2 text-gray-700">
-        Optimizaciones en título, meta descripción, encabezados, imágenes y etiquetas sociales.
+        Optimizamos títulos, metaetiquetas, encabezados, imágenes y más para un SEO superior.
       </p>
     </div>
-    <div class="faq-item border border-gray-300 rounded-lg p-4">
+    <div class="faq-item border border-gray-300 rounded-lg p-6 bg-white shadow animate-fadeIn">
       <button
         class="w-full flex justify-between items-center text-lg font-semibold text-tiffany focus:outline-none"
         onclick="toggleFAQ(this)"
@@ -283,9 +323,23 @@
         <span class="faq-icon text-2xl font-bold">+</span>
       </button>
       <p class="faq-answer mt-2 text-gray-700">
-        Solo unos segundos, dependiendo de la complejidad de tu página.
+        Solo segundos, incluso para sitios complejos.
       </p>
     </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="py-24 px-6 bg-tiffany text-dark text-center">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-fadeIn">Eleva tu Negocio con SeogramAI</h2>
+    <p class="text-lg md:text-xl mb-8 animate-fadeIn">Únete a cientos de negocios que han mejorado su SEO con nuestra IA.</p>
+    <button
+      onclick="initiatePayment()"
+      class="bg-dark hover:bg-teal text-white px-8 py-4 rounded-xl text-lg font-bold transition-all animate-fadeIn"
+    >
+      Suscribirse Ahora
+    </button>
   </div>
 </section>
 
@@ -299,6 +353,8 @@
   const improvementsList = document.getElementById('improvementsList');
   const optimizedTitle = document.getElementById('optimizedTitle');
   const optimizedMeta = document.getElementById('optimizedMeta');
+  const optimizedKeywords = document.getElementById('optimizedKeywords');
+  const optimizedCanonical = document.getElementById('optimizedCanonical');
   const optimizedHeadings = document.getElementById('optimizedHeadings');
   const optimizedImages = document.getElementById('optimizedImages');
   const downloadBtn = document.getElementById('downloadBtn');
@@ -310,9 +366,8 @@
     resultContainer.classList.add('hidden');
 
     const url = urlInput.value.trim();
-
     if (!url || !url.match(/^https?:\/\//)) {
-      errorMessage.textContent = 'Por favor, introduce una URL válida (http:// o https://).';
+      errorMessage.textContent = 'Introduce una URL válida (http:// o https://).';
       errorMessage.classList.remove('hidden');
       return;
     }
@@ -323,9 +378,7 @@
     try {
       const response = await fetch('https://backend-xpf4.onrender.com/api/getOptimized', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
       });
 
@@ -334,61 +387,37 @@
       }
 
       const data = await response.json();
-
       if (!data.optimizedHtml) {
         throw new Error('No se recibió HTML optimizado');
       }
 
-      // Mostrar HTML optimizado
       resultTextarea.value = data.optimizedHtml;
 
-      // Mostrar informe de mejoras
       improvementsList.innerHTML = '';
-      if (data.improvements && data.improvements.length > 0) {
-        data.improvements.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          improvementsList.appendChild(li);
-        });
-      } else {
+      data.improvements?.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = 'No se detectaron mejoras específicas.';
+        li.textContent = item;
         improvementsList.appendChild(li);
-      }
+      }) || improvementsList.appendChild(Object.assign(document.createElement('li'), { textContent: 'No se detectaron mejoras.' }));
 
-      // Mostrar título optimizado
-      optimizedTitle.textContent = data.title || 'No se proporcionó título';
+      optimizedTitle.textContent = data.title || 'No proporcionado';
+      optimizedMeta.textContent = data.meta_description || 'No proporcionado';
+      optimizedKeywords.textContent = data.keywords || 'No proporcionado';
+      optimizedCanonical.textContent = data.canonical || 'No proporcionado';
 
-      // Mostrar meta descripción
-      optimizedMeta.textContent = data.meta_description || 'No se proporcionó meta descripción';
-
-      // Mostrar encabezados
       optimizedHeadings.innerHTML = '';
-      if (data.headings && data.headings.length > 0) {
-        data.headings.forEach(h => {
-          const li = document.createElement('li');
-          li.textContent = `${h.tag.toUpperCase()}: ${h.text}`;
-          optimizedHeadings.appendChild(li);
-        });
-      } else {
+      data.headings?.forEach(h => {
         const li = document.createElement('li');
-        li.textContent = 'No se proporcionaron encabezados';
+        li.textContent = `${h.tag.toUpperCase()}: ${h.text}`;
         optimizedHeadings.appendChild(li);
-      }
+      }) || optimizedHeadings.appendChild(Object.assign(document.createElement('li'), { textContent: 'No proporcionado' }));
 
-      // Mostrar imágenes
       optimizedImages.innerHTML = '';
-      if (data.images_alt && data.images_alt.length > 0) {
-        data.images_alt.forEach(img => {
-          const li = document.createElement('li');
-          li.textContent = `Imagen (${img.src}): ${img.alt}`;
-          optimizedImages.appendChild(li);
-        });
-      } else {
+      data.images_alt?.forEach(img => {
         const li = document.createElement('li');
-        li.textContent = 'No se proporcionaron imágenes';
+        li.textContent = `Imagen (${img.src}): ${img.alt}`;
         optimizedImages.appendChild(li);
-      }
+      }) || optimizedImages.appendChild(Object.assign(document.createElement('li'), { textContent: 'No proporcionado' }));
 
       resultContainer.classList.remove('hidden');
       resultContainer.scrollIntoView({ behavior: 'smooth' });
