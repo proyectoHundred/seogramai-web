@@ -39,6 +39,12 @@
       z-index: 0;
       transition: background-position 0.1s;
     }
+    #visualizer iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 0.75rem; /* rounded-xl */
+    }
   </style>
 </head>
 <body
@@ -57,9 +63,8 @@
       icon.textContent = faqItem.classList.contains("faq-open") ? "–" : "+";
     }
   </script>
-  <!-- NAVBAR -->
-  <!-- (todo tu navbar igual) -->
-  <!-- HERO -->
+  <!-- NAVBAR y HERO aquí igual -->
+
   <section
     class="min-h-screen flex flex-col justify-center items-center px-6 text-center relative z-10"
   >
@@ -86,7 +91,6 @@
       </div>
     </div>
   </section>
-  <!-- (otras secciones sin cambios) -->
 
   <!-- PROBAR GRATIS -->
   <section id="comenzar" class="py-24 bg-white px-6 text-center">
@@ -120,7 +124,6 @@
     </div>
   </section>
 
-  <!-- Añade este script justo antes de </body> -->
   <script>
     const form = document.getElementById("urlForm");
     const input = document.getElementById("urlInput");
@@ -154,7 +157,13 @@
         if (data.error) {
           visualizer.textContent = `Error: ${data.error}`;
         } else {
-          visualizer.innerHTML = data.optimized_html;
+          // Carga el HTML en un iframe para evitar problemas de estilos rotos
+          visualizer.innerHTML = `<iframe sandbox="allow-scripts allow-same-origin"></iframe>`;
+          const iframe = visualizer.querySelector("iframe");
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          doc.open();
+          doc.write(data.optimized_html);
+          doc.close();
         }
       } catch (error) {
         visualizer.textContent = "Error en la conexión al backend";
