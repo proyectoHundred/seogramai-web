@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SeogramAI | Optimización SEO Profesional</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://js.stripe.com/v3/"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -60,21 +59,6 @@
     const icon = button.querySelector('.faq-icon');
     icon.textContent = faqItem.classList.contains('faq-open') ? '–' : '+';
   }
-
-  const stripe = Stripe('pk_test_TU_CLAVE_PUBLICA_STRIPE');
-  async function initiatePayment() {
-    try {
-      const response = await fetch('https://backend-xpf4.onrender.com/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: 'premium' }),
-      });
-      const { sessionId } = await response.json();
-      await stripe.redirectToCheckout({ sessionId });
-    } catch (error) {
-      alert('Error al iniciar el pago. Intenta nuevamente.');
-    }
-  }
 </script>
 
 <!-- NAVBAR -->
@@ -87,7 +71,7 @@
       <a href="#como-funciona" class="text-gray-300 hover:text-tiffany transition">Cómo funciona</a>
       <a href="#beneficios" class="text-gray-300 hover:text-tiffany transition">Beneficios</a>
       <a href="#faq" class="text-gray-300 hover:text-tiffany transition">FAQ</a>
-      <button onclick="initiatePayment()" class="bg-tiffany hover:bg-teal text-dark px-6 py-2 rounded-lg font-medium transition">Suscribirse</button>
+      <button onclick="document.getElementById('precios').scrollIntoView({ behavior: 'smooth' });" class="bg-tiffany hover:bg-teal text-dark px-6 py-2 rounded-lg font-medium transition">Suscribirse</button>
     </nav>
   </div>
 </header>
@@ -123,6 +107,7 @@
         <p class="text-gray-600">Obtén un informe profesional y HTML optimizado listo para tu sitio.</p>
       </div>
     </div>
+    <button onclick="document.getElementById('precios').scrollIntoView({ behavior: 'smooth' });" class="mt-8 bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition animate-fadeIn">Ver Planes</button>
   </div>
 </section>
 
@@ -144,6 +129,7 @@
         <p>Nuestro equipo te guía para implementar las mejoras con éxito.</p>
       </div>
     </div>
+    <button onclick="document.getElementById('precios').scrollIntoView({ behavior: 'smooth' });" class="mt-8 bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition animate-fadeIn">Suscribirse Ahora</button>
   </div>
 </section>
 
@@ -181,7 +167,7 @@
           <li>✔ Informe SEO detallado</li>
           <li>✔ HTML optimizado</li>
         </ul>
-        <button onclick="initiatePayment()" class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
+        <button onclick="alert('Configura Stripe para suscribirte');" class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
       </div>
       <div class="bg-tiffany text-dark rounded-xl p-8 shadow-lg animate-fadeIn border-4 border-teal">
         <h3 class="text-2xl font-bold mb-4">Pro</h3>
@@ -191,7 +177,7 @@
           <li>✔ Informe SEO avanzado</li>
           <li>✔ HTML optimizado + Soporte prioritario</li>
         </ul>
-        <button onclick="initiatePayment()" class="bg-dark hover:bg-teal text-white px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
+        <button onclick="alert('Configura Stripe para suscribirte');" class="bg-dark hover:bg-teal text-white px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
       </div>
       <div class="bg-white text-dark rounded-xl p-8 shadow-lg animate-fadeIn">
         <h3 class="text-2xl font-bold mb-4">Empresarial</h3>
@@ -201,7 +187,7 @@
           <li>✔ Informe SEO completo</li>
           <li>✔ Consultoría personalizada</li>
         </ul>
-        <button onclick="initiatePayment()" class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
+        <button onclick="alert('Configura Stripe para suscribirte');" class="bg-tiffany hover:bg-teal text-dark px-6 py-3 rounded-lg font-medium transition w-full">Suscribirse</button>
       </div>
     </div>
   </div>
@@ -237,6 +223,7 @@
     <div id="resultContainer" class="mt-12 hidden animate-fadeIn">
       <h3 class="text-2xl font-bold mb-6 text-dark">Informe de Optimización SEO</h3>
       <div class="bg-gray-50 border border-gray-200 rounded-xl p-8 text-left shadow-lg">
+        <p id="seoScore" class="text-lg font-semibold text-tiffany mb-4"></p>
         <h4 class="text-lg font-semibold text-tiffany mb-4">Resumen de Mejoras</h4>
         <ul id="improvementsList" class="list-disc list-inside text-gray-700 mb-6"></ul>
         
@@ -259,6 +246,9 @@
         <ul id="optimizedImages" class="list-disc list-inside text-gray-700 mb-6"></ul>
       </div>
 
+      <h3 class="text-2xl font-bold mt-8 mb-4 text-dark">Vista Previa</h3>
+      <iframe id="htmlPreview" class="w-full h-96 border border-gray-300 rounded-lg"></iframe>
+
       <h3 class="text-2xl font-bold mt-8 mb-4 text-dark">Código HTML Optimizado</h3>
       <textarea
         id="resultTextarea"
@@ -274,7 +264,7 @@
         Descargar HTML Optimizado
       </button>
       <button
-        onclick="initiatePayment()"
+        onclick="document.getElementById('precios').scrollIntoView({ behavior: 'smooth' });"
         class="mt-4 bg-dark hover:bg-teal text-white px-8 py-3 rounded-lg font-medium transition"
       >
         Suscribirse para Más Optimizaciones
@@ -335,7 +325,7 @@
     <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-fadeIn">Eleva tu Negocio con SeogramAI</h2>
     <p class="text-lg md:text-xl mb-8 animate-fadeIn">Únete a cientos de negocios que han mejorado su SEO con nuestra IA.</p>
     <button
-      onclick="initiatePayment()"
+      onclick="document.getElementById('precios').scrollIntoView({ behavior: 'smooth' });"
       class="bg-dark hover:bg-teal text-white px-8 py-4 rounded-xl text-lg font-bold transition-all animate-fadeIn"
     >
       Suscribirse Ahora
@@ -357,6 +347,7 @@
   const optimizedCanonical = document.getElementById('optimizedCanonical');
   const optimizedHeadings = document.getElementById('optimizedHeadings');
   const optimizedImages = document.getElementById('optimizedImages');
+  const htmlPreview = document.getElementById('htmlPreview');
   const downloadBtn = document.getElementById('downloadBtn');
   const submitBtn = document.getElementById('submitBtn');
 
@@ -392,13 +383,21 @@
       }
 
       resultTextarea.value = data.optimizedHtml;
+      htmlPreview.srcdoc = data.optimizedHtml;
 
       improvementsList.innerHTML = '';
-      data.improvements?.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        improvementsList.appendChild(li);
-      }) || improvementsList.appendChild(Object.assign(document.createElement('li'), { textContent: 'No se detectaron mejoras.' }));
+      if (data.improvements?.length) {
+        data.improvements.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          improvementsList.appendChild(li);
+        });
+      } else {
+        improvementsList.appendChild(Object.assign(document.createElement('li'), { textContent: 'No se detectaron mejoras.' }));
+      }
+
+      const seoScore = Math.min(90, 50 + data.improvements.length * 5);
+      document.getElementById('seoScore').textContent = `Puntuación SEO: ${seoScore}/100`;
 
       optimizedTitle.textContent = data.title || 'No proporcionado';
       optimizedMeta.textContent = data.meta_description || 'No proporcionado';
